@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScaleBI - Soluciones Financieras y Tecnológicas para PYMEs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Updated colors to match current ScaleBI branding */
+        :root {
+            --primary-color: #1a2e3e;
+            --primary-dark: #0f1e2e;
+            --accent-color: #e8d4b0;
+            --accent-light: #f5deb3;
+            --text-light: #999;
+            --light-bg: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .cta-button {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(232, 212, 176, 0.3);
+        }
+
+        .cta-button-secondary {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .cta-button-secondary:hover {
+            background: var(--accent-color);
+        }
+
+        /* Hero Section con Video VSL */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: rgba(255,255,255,0.9);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Espacio para Video VSL */
+        .video-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 2px dashed rgba(232, 212, 176, 0.3);
+        }
+
+        .video-placeholder {
+            aspect-ratio: 16/9;
+            background: rgba(0,0,0,0.5);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Servicios Principales */
+        .services {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(26, 46, 62, 0.15);
+            border-color: var(--accent-color);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .service-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .service-features li {
+            padding: 0.5rem 0;
+            color: #555;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .service-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Plantillas Section */
+        .templates {
+            padding: 5rem 0;
+            background: var(--light-bg);
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .template-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .template-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .template-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Por qué elegirnos */
+        .why-us {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .benefit-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-item h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .benefit-item p {
+            color: var(--text-light);
+        }
+
+        /* CTA Final */
+        .final-cta {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-buttons-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: block;
+            padding: 0.3rem 0;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-color);
+            transform: translateY(-3px);
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .services-grid,
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">ScaleBI</div>
+            <ul class="nav-links">
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#plantillas">Plantillas</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+            </ul>
+            <a href="#contacto" class="cta-button">Agenda tu Consultoría</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section con Video VSL -->
+    <section class="hero">
+        <div class="container">
+            <h1>Transformamos Datos en Decisiones<br>que Escalan tu Negocio</h1>
+            <p class="hero-subtitle">
+                Soluciones financieras y tecnológicas diseñadas para PYMEs que quieren crecer inteligentemente
+            </p>
+
+            <!-- Espacio para Video VSL -->
+            <div class="video-container">
+                <div class="video-placeholder">
+                    <!-- Aquí va tu video VSL -->
+                    🎬 COLOCA TU VIDEO VSL AQUÍ
+                    <!-- Ejemplo: <iframe src="tu-video-url" frameborder="0" allowfullscreen></iframe> -->
+                </div>
+            </div>
+
+            <div class="hero-ctas">
+                <a href="#contacto" class="cta-button">Agenda tu Consultoría Gratuita</a>
+                <a href="#plantillas" class="cta-button cta-button-secondary">Ver Plantillas</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios Principales -->
+    <section id="servicios" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestros Servicios</h2>
+                <p>Tres pilares para llevar tu empresa al siguiente nivel financiero y operativo</p>
+            </div>
+
+            <div class="services-grid">
+                <!-- Plantillas para tu Negocio -->
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Plantillas para tu Negocio</h3>
+                    <p>Automatiza y optimiza tus procesos con nuestras plantillas profesionales en Google Sheets</p>
+                    <ul class="service-features">
+                        <li>Sistema Contable Completo</li>
+                        <li>Gestor de Órdenes de Compra</li>
+                        <li>Control de Inventario</li>
+                        <li>Gestión de RRHH</li>
+                        <li>CXC y Tesorería</li>
+                        <li>Evaluador de Amortización</li>
+                    </ul>
+                    <a href="#plantillas" class="cta-button" style="display: inline-block; margin-top: 1rem;">Explorar Plantillas</a>
+                </div>
+
+                <!-- CFO as a Service -->
+                <div class="service-card">
+                    <div class="service-icon">💼</div>
+                    <h3>CFO as a Service</h3>
+                    <p>Tu director financiero sin los costos de uno de tiempo completo</p>
+                    <ul class="service-features">
+                        <li>Planificación Financiera Estratégica</li>
+                        <li>Control y Análisis en Tiempo Real</li>
+                        <li>Optimización de Flujo de Caja</li>
+                        <li>Proyecciones y Presupuestos</li>
+                        <li>KPIs y Ratios Financieros</li>
+                        <li>Asesoría en Decisiones de Inversión</li>
+                    </ul>
+                    <a href="#contacto" class="cta-button" style="display: inline-block; margin-top: 1rem;">Agendar Consultoría</a>
+                </div>
+
+                <!-- Business Intelligence -->
+                <div class="service-card">
+                    <div class="service-icon">📈</div>
+                    <h3>Business Intelligence</h3>
+                    <p>Convierte tus datos en ventaja competitiva con dashboards inteligentes</p>
+                    <ul class="service-features">
+                        <li>Dashboards Ejecutivos Personalizados</li>
+                        <li>Automatización de Reportes</li>
+                        <li>Análisis Predictivo</li>
+                        <li>Integración de Múltiples Fuentes</li>
+                        <li>Visualización en Tiempo Real</li>
+                        <li>Insights Accionables</li>
+                    </ul>
+                    <a href="#contacto" class="cta-button" style="display: inline-block; margin-top: 1rem;">Solicitar Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plantillas Disponibles -->
+    <section id="plantillas" class="templates">
+        <div class="container">
+            <div class="section-header">
+                <h2>Plantillas Profesionales</h2>
+                <p>Herramientas listas para usar que transformarán tu gestión empresarial</p>
+            </div>
+
+            <div class="templates-grid">
+                <div class="template-card">
+                    <div class="template-icon">💰</div>
+                    <h4>Sistema Contable</h4>
+                    <p>Balance, P&L, Flujo de Caja y ratios automáticos</p>
+                    <a href="#" class="cta-button">Ver Detalles</a>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-icon">📦</div>
+                    <h4>Gestor de OC</h4>
+                    <p>Control total de tus órdenes de compra</p>
+                    <a href="#" class="cta-button">Ver Detalles</a>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-icon">🏦</div>
+                    <h4>Evaluador de Crédito</h4>
+                    <p>Amortización y análisis de financiamiento</p>
+                    <a href="#" class="cta-button">Ver Detalles</a>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-icon">📊</div>
+                    <h4>Gestor de Inventario</h4>
+                    <p>Control de stock y alertas automáticas</p>
+                    <a href="#" class="cta-button">Ver Detalles</a>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-icon">👥</div>
+                    <h4>Gestor de RRHH</h4>
+                    <p>Gestión de personal y nómina</p>
+                    <a href="#" class="cta-button">Ver Detalles</a>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-icon">💳</div>
+                    <h4>Gestor de CXC</h4>
+                    <p>Cuentas por cobrar y flujo de tesorería</p>
+                    <a href="#" class="cta-button">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Por qué elegirnos -->
+    <section class="why-us">
+        <div class="container">
+            <div class="section-header">
+                <h2>Por qué ScaleBI</h2>
+                <p>La combinación perfecta entre finanzas y tecnología</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-number">⚡</div>
+                    <h4>Implementación Rápida</h4>
+                    <p>Funcionando en menos de 48 horas</p>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-number">💡</div>
+                    <h4>Diseño Chileno</h4>
+                    <p>Específicamente para PYMEs chilenas</p>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-number">📊</div>
+                    <h4>ROI Garantizado</h4>
+                    <p>Recupera la inversión en 3 meses</p>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-number">🔧</div>
+                    <h4>Soporte Continuo</h4>
+                    <p>Acompañamiento técnico y estratégico</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section id="contacto" class="final-cta">
+        <div class="container">
+            <h2>¿Listo para Transformar tu Gestión Financiera?</h2>
+            <p>Agenda una consultoría gratuita de 30 minutos y descubre cómo podemos ayudarte</p>
+            <div class="cta-buttons-group">
+                <!-- Removed "Ver Demo del Sistema" button - only keeping required CTAs -->
+                <a href="#" class="cta-button" style="background: var(--accent-color); color: var(--primary-color);">Agendar Consultoría Gratuita</a>
+                <a href="#plantillas" class="cta-button cta-button-secondary">Ver Plantillas</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ScaleBI</h4>
+                    <p>Soluciones financieras y tecnológicas para PYMEs que quieren crecer inteligentemente.</p>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">🐦</a>
+                        <a href="#">💼</a>
+                        <a href="#">📸</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Servicios</h4>
+                    <ul>
+                        <li><a href="#plantillas">Plantillas para tu Negocio</a></li>
+                        <li><a href="#servicios">CFO as a Service</a></li>
+                        <li><a href="#servicios">Business Intelligence</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Casos de Éxito</a></li>
+                        <li><a href="#">Guías Gratuitas</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="#">contacto@scalebi.ai</a></li>
+                        <li><a href="#">+56 9 XXXX XXXX</a></li>
+                        <li><a href="#">Santiago, Chile</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 ScaleBI. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
