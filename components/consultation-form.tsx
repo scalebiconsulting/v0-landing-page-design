@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 
 export default function ConsultationForm() {
@@ -15,6 +14,9 @@ export default function ConsultationForm() {
     problemas: [],
     otroProblema: "",
   })
+
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
 
   const empleadosOptions = ["1-5", "6-10", "11-20", "21-35", "35-50", "51-100", "101-200", "201-300", "300+"]
 
@@ -34,6 +36,7 @@ export default function ConsultationForm() {
       ...prev,
       [name]: value,
     }))
+    setError("")
   }
 
   const handleProblemasChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +45,7 @@ export default function ConsultationForm() {
       ...prev,
       problemas: checked ? [...prev.problemas, value] : prev.problemas.filter((p) => p !== value),
     }))
+    setError("")
   }
 
   const handleOtroProblemaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -50,12 +54,31 @@ export default function ConsultationForm() {
       ...prev,
       otroProblema: value,
     }))
+    setError("")
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError("")
+
+    if (!formData.nombre.trim()) {
+      setError("Por favor ingresa tu nombre completo")
+      return
+    }
+    if (!formData.email.trim()) {
+      setError("Por favor ingresa tu email")
+      return
+    }
+    if (!formData.colaboradores) {
+      setError("Por favor selecciona el número de colaboradores")
+      return
+    }
+
+    setLoading(true)
 
     try {
+      console.log("[v0] Sending form data:", formData)
+
       const response = await fetch("/api/send-consultation", {
         method: "POST",
         headers: {
@@ -64,12 +87,22 @@ export default function ConsultationForm() {
         body: JSON.stringify(formData),
       })
 
+      console.log("[v0] Response status:", response.status)
+
       if (response.ok) {
+        console.log("[v0] Form submitted successfully, redirecting to calendar")
         const calendarUrl = `https://cal.com/samuel-orellana/30min?overlayCalendar=true&name=${encodeURIComponent(formData.nombre)}&email=${encodeURIComponent(formData.email)}&phone=${encodeURIComponent(formData.telefono)}`
         window.location.href = calendarUrl
+      } else {
+        const errorData = await response.json()
+        console.log("[v0] Error response:", errorData)
+        setError("Hubo un error al enviar el formulario. Por favor intenta nuevamente.")
       }
     } catch (error) {
-      console.error("Error sending form:", error)
+      console.error("[v0] Error sending form:", error)
+      setError("Error de conexión. Por favor verifica tu conexión a internet e intenta nuevamente.")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -205,12 +238,19 @@ export default function ConsultationForm() {
               </div>
             )}
 
+            {error && <div className="p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200">{error}</div>}
+
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full py-4 bg-[#e8d4b0] text-[#1a2e3e] font-semibold rounded-lg hover:bg-[#f5deb3] transition-colors mt-8"
+              disabled={loading}
+              className={`w-full py-4 font-semibold rounded-lg transition-colors mt-8 ${
+                loading
+                  ? "bg-[#e8d4b0]/50 text-[#1a2e3e]/50 cursor-not-allowed"
+                  : "bg-[#e8d4b0] text-[#1a2e3e] hover:bg-[#f5deb3]"
+              }`}
             >
-              Agendar Consultoría Gratuita
+              {loading ? "Enviando..." : "Agendar Consultoría Gratuita"}
             </button>
           </form>
         </div>
