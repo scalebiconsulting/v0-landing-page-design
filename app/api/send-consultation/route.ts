@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     if (!formData || !formData.nombre || !formData.email || !formData.colaboradores) {
       return NextResponse.json({ success: false, error: "Missing required fields" }, { status: 400 })
     }
-
+  // Read configuration from environment variables
     const resendKey = process.env.RESEND_API_KEY
     const fromEmail = process.env.RESEND_FROM || "samuel@scalebi.ai"
     const adminEmail = process.env.ADMIN_EMAIL || "samuel@scalebi.ai"
