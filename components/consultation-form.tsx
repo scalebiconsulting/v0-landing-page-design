@@ -3,8 +3,19 @@
 import type React from "react"
 import { useState } from "react"
 
+type ConsultationFormData = {
+  nombre: string
+  rut: string
+  email: string
+  telefono: string
+  empresa: string
+  colaboradores: string
+  problemas: string[]
+  otroProblema: string
+}
+
 export default function ConsultationForm() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ConsultationFormData>({
     nombre: "",
     rut: "",
     email: "",

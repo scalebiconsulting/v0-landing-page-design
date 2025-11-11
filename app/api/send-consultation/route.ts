@@ -1,74 +1,124 @@
 import { type NextRequest, NextResponse } from "next/server"
+import { Resend } from "resend"
+
+type FormPayload = {
+  nombre: string
+  rut?: string
+  email: string
+  telefono?: string
+  empresa?: string
+  colaboradores: string
+  problemas: string[]
+  otroProblema?: string
+}
+
+// Initialize Resend SDK (server-side). It will read the API key from env.
+function getResendClient() {
+  const key = process.env.RESEND_API_KEY
+  if (!key) return null
+  return new Resend(key)
+}
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.json()
+    const formData: FormPayload = await req.json()
 
-    // Prepare data for FormSubmit.co
-    const submissionData = {
-      nombre: formData.nombre,
-      rut: formData.rut,
-      email: formData.email,
-      telefono: formData.telefono,
-      empresa: formData.empresa,
-      colaboradores: formData.colaboradores,
-      problemas: formData.problemas.join(", "),
-      otroProblema: formData.otroProblema,
+    // Basic validation
+    if (!formData || !formData.nombre || !formData.email || !formData.colaboradores) {
+      return NextResponse.json({ success: false, error: "Missing required fields" }, { status: 400 })
     }
 
-    // Send to admin email via FormSubmit.co
-    const adminFormData = new FormData()
-    adminFormData.append("_subject", `Nuevo Cliente: ${formData.nombre} - ${formData.empresa}`)
-    adminFormData.append("_captcha", "false")
-    adminFormData.append("nombre", formData.nombre)
-    adminFormData.append("rut", formData.rut || "No proporcionado")
-    adminFormData.append("email", formData.email)
-    adminFormData.append("telefono", formData.telefono || "No proporcionado")
-    adminFormData.append("empresa", formData.empresa || "No proporcionado")
-    adminFormData.append("colaboradores", formData.colaboradores)
-    adminFormData.append("problemas", formData.problemas.join(", "))
-    adminFormData.append("otroProblema", formData.otroProblema || "No proporcionado")
+    const resendKey = process.env.RESEND_API_KEY
+    const fromEmail = process.env.RESEND_FROM || "samuel@scalebi.ai"
+    const adminEmail = process.env.ADMIN_EMAIL || "samuel@scalebi.ai"
 
+    if (!resendKey) {
+      console.error("[v0] RESEND_API_KEY is not configured")
+      return NextResponse.json({ success: false, error: "Email service not configured" }, { status: 500 })
+    }
+
+    const problemasText = Array.isArray(formData.problemas) ? formData.problemas.join(", ") : String(formData.problemas || "No proporcionado")
+
+    // Build HTML for admin notification
+    const adminHtml = `
+      <h2>Nuevo cliente</h2>
+      <p><strong>Nombre:</strong> ${formData.nombre}</p>
+      <p><strong>RUT:</strong> ${formData.rut || "No proporcionado"}</p>
+      <p><strong>Email:</strong> ${formData.email}</p>
+      <p><strong>Teléfono:</strong> ${formData.telefono || "No proporcionado"}</p>
+      <p><strong>Empresa:</strong> ${formData.empresa || "No proporcionado"}</p>
+      <p><strong>Colaboradores:</strong> ${formData.colaboradores}</p>
+      <p><strong>Problemas:</strong> ${problemasText}</p>
+      <p><strong>Otro problema:</strong> ${formData.otroProblema || "No proporcionado"}</p>
+    `
+
+    // Build HTML for customer confirmation
+    const customerHtml = `
+      <h2>Solicitud recibida</h2>
+      <p>Hola ${formData.nombre},</p>
+      <p>Hemos recibido tu solicitud de consultoría. Nuestro equipo se pondrá en contacto contigo en las próximas 48 horas.</p>
+      <p><strong>Empresa:</strong> ${formData.empresa || "No proporcionado"}</p>
+      <p>Si necesitas contactarnos antes, responde a este correo.</p>
+    `
+
+    // Create SDK client
+    const resendClient = getResendClient()
+    if (!resendClient) {
+      console.error("[v0] RESEND_API_KEY is not configured")
+      return NextResponse.json({ success: false, error: "Email service not configured" }, { status: 500 })
+    }
+
+    // Send admin notification using SDK
     try {
-      await fetch("https://formsubmit.co/samuel@scalebi.ai", {
-        method: "POST",
-        body: adminFormData,
+      const adminResp = await resendClient.emails.send({
+        from: fromEmail,
+        to: adminEmail,
+        subject: `Nuevo Cliente: ${formData.nombre} - ${formData.empresa || "Sin empresa"}`,
+        html: adminHtml,
       })
-    } catch (error) {
-      console.error("[v0] Error sending admin email:", error)
+      
+      // Check if response contains an error
+      if ((adminResp as any).error) {
+        console.error("[v0] Resend admin error:", (adminResp as any).error)
+        return NextResponse.json({ 
+          success: false, 
+          error: "Failed to send admin email",
+          details: (adminResp as any).error 
+        }, { status: 502 })
+      }
+      
+      console.log("[v0] Admin email sent successfully:", (adminResp as any).data?.id || adminResp.id)
+    } catch (err) {
+      console.error("[v0] Error sending admin email via Resend:", err)
+      return NextResponse.json({ success: false, error: "Failed to send admin email" }, { status: 502 })
     }
 
-    // Send confirmation to customer
-    const customerFormData = new FormData()
-    customerFormData.append("_subject", "Tu solicitud de consultoría ha sido recibida - Scale BI Consulting")
-    customerFormData.append("_template", "table")
-    customerFormData.append("_captcha", "false")
-    customerFormData.append("nombre", formData.nombre)
-    customerFormData.append("empresa", formData.empresa || "No proporcionado")
-    customerFormData.append(
-      "mensaje",
-      "Tu solicitud ha sido recibida. Nuestro equipo se pondrá en contacto contigo en las próximas 2 horas.",
-    )
-
+    // Send confirmation to customer using SDK
     try {
-      await fetch("https://formsubmit.co/samuel@scalebi.ai", {
-        method: "POST",
-        body: customerFormData,
-        headers: {
-          Accept: "application/json",
-        },
+      const customerResp = await resendClient.emails.send({
+        from: fromEmail,
+        to: formData.email,
+        subject: "Tu solicitud de consultoría ha sido recibida - Scale BI Consulting",
+        html: customerHtml,
       })
-    } catch (error) {
-      console.error("[v0] Error sending customer email:", error)
+      
+      // Check if response contains an error
+      if ((customerResp as any).error) {
+        console.error("[v0] Resend customer error:", (customerResp as any).error)
+        return NextResponse.json({ 
+          success: false, 
+          error: "Failed to send customer confirmation",
+          details: (customerResp as any).error 
+        }, { status: 502 })
+      }
+      
+      console.log("[v0] Customer email sent successfully:", (customerResp as any).data?.id || customerResp.id)
+    } catch (err) {
+      console.error("[v0] Error sending customer email via Resend:", err)
+      return NextResponse.json({ success: false, error: "Failed to send customer confirmation" }, { status: 502 })
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: "Solicitud procesada correctamente",
-      },
-      { status: 200 },
-    )
+    return NextResponse.json({ success: true, message: "Emails sent" }, { status: 200 })
   } catch (error) {
     console.error("[v0] Error in send-consultation:", error)
     return NextResponse.json({ error: "Failed to process consultation", success: false }, { status: 500 })
