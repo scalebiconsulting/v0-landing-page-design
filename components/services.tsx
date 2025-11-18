@@ -4,70 +4,47 @@ const services = [
   {
     icon: "📊",
     title: "BI Analytics",
-    description: "Ve tus informes en línea y en un sólo lugar para saber todo lo que pasa en tu empresa",
+    description: "Ve todos tus informes en línea y en un solo lugar. Dashboards interactivos que te muestran en tiempo real todo lo que pasa en tu empresa",
     features: [
-      "Reportes en tiempo real",
-      "Integración de múltiples sistemas",
-      "Visualización personalizada",
-      "Automatización de informes",
-      "Acceso centralizado",
-      "Análisis detallado",
+      "Reportes en tiempo real actualizados automáticamente",
+      "Acceso centralizado desde cualquier dispositivo",
+      "Integración de múltiples sistemas (ERP, CRM, Excel)",
+      "Visualización de datos clara y personalizada",
+      "Automatización de informes mensuales",
+      "Alertas inteligentes de KPIs críticos",
+      "Análisis financiero detallado",
+      "Comparativas históricas y tendencias",
     ],
     cta: "Agendar Consultoría Gratuita",
   },
   {
     icon: "🤖",
-    title: "Advanced Analytics",
-    description: "Usa modelos de Analítica Avanzada, descubre demandas futuras, fallas y fugas",
+    title: "Machine Learning & IA",
+    description: "Algoritmos inteligentes que predicen, detectan y optimizan tu negocio de forma automática",
     features: [
-      "Machine Learning avanzado",
-      "Predicción de demanda",
-      "Detección de anomalías",
-      "Análisis predictivo",
-      "Optimización de procesos",
-      "Máxima eficiencia administrativa",
+      { label: "Regresión Lineal:", text: "Predice ventas, costos y gastos futuros" },
+      { label: "Random Forest:", text: "Predice demanda de productos y stock óptimo" },
+      { label: "XGBoost:", text: "Detecta fraudes, clientes en riesgo de fuga y anomalías" },
+      { label: "K-Means:", text: "Segmenta clientes automáticamente por comportamiento" },
+      { label: "Prophet (Series de Tiempo):", text: "Forecasting precisos de ingresos mensuales" },
+      { label: "Redes Neuronales:", text: "Reconoce patrones complejos en grandes volúmenes" },
+      { label: "Árboles de Decisión:", text: "Crea reglas automáticas de negocio" },
     ],
     cta: "Agendar Consultoría Gratuita",
   },
   {
-    icon: "🔗",
-    title: "Data Consulting",
-    description: "Conecta, centraliza y digitaliza los datos de tu empresa para obtener el máximo valor",
+    icon: "⚡",
+    title: "Automatización de Procesos",
+    description: "Elimina tareas manuales y repetitivas con automatización inteligente. Soluciones con y sin IA para optimizar tus operaciones",
     features: [
-      "Integración de sistemas",
-      "Centralización de datos",
-      "Estrategia de digitalización",
-      "Gobernanza de datos",
-      "Identificación de KPIs",
-      "Implementación de proyectos BI",
-    ],
-    cta: "Agendar Consultoría Gratuita",
-  },
-  {
-    icon: "⚙️",
-    title: "Software Factory",
-    description: "Digitaliza tus procesos manuales con aplicaciones web a la medida",
-    features: [
-      "Aplicaciones web personalizadas",
-      "Automatización de procesos",
-      "Integración con sistemas actuales",
-      "Escalabilidad",
-      "Soporte técnico continuo",
-      "Adaptación a tus necesidades",
-    ],
-    cta: "Agendar Consultoría Gratuita",
-  },
-  {
-    icon: "💹",
-    title: "Quantitative Finance",
-    description: "Modelos matemáticos avanzados para optimización de portafolios y análisis de riesgo",
-    features: [
-      "Modelado cuantitativo",
-      "Optimización de portafolios",
-      "Análisis de riesgo",
-      "Estrategias de inversión",
-      "Valuación de activos",
-      "Análisis financiero avanzado",
+      "Automatización de procesos repetitivos (RPA)",
+      "Automatización con Inteligencia Artificial",
+      "Extracción automática de datos de documentos",
+      "Integración y conexión entre sistemas",
+      "Automatización de flujos de trabajo completos",
+      "Conexión con ERPs, CRMs y APIs",
+      "Procesos automáticos sin necesidad de código",
+      "Optimización y eficiencia operacional",
     ],
     cta: "Agendar Consultoría Gratuita",
   },
@@ -104,15 +81,22 @@ export default function Services() {
               <ul className="space-y-2 mb-8">
                 {service.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start text-gray-300">
-                    <span className="text-[#e8d4b0] mr-3 font-bold">✓</span>
-                    <span>{feature}</span>
+                    <span className="text-[#4ade80] mr-3 mt-1 flex-shrink-0">✓</span>
+                    {typeof feature === 'string' ? (
+                      <span>{feature}</span>
+                    ) : (
+                      <span>
+                        <span className="text-[#3b82f6] font-medium">{feature.label}</span>{' '}
+                        <span>{feature.text}</span>
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>
 
               <button
                 onClick={handleCtaClick}
-                className="w-full py-3 bg-[#1a2e3e] border-2 border-[#e8d4b0] text-[#e8d4b0] font-semibold rounded-lg hover:bg-[#e8d4b0]/10 transition-colors"
+                className="w-full py-3 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
               >
                 {service.cta}
               </button>
