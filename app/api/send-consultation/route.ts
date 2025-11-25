@@ -5,7 +5,7 @@ import * as xmlrpc from 'xmlrpc'
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, phone, email, company, employees } = body;
+    const { name, phone, email, company, employees, rut, problems, otherProblem } = body;
 
     if (!name || !phone || !email || !company || !employees) {
       return NextResponse.json(
@@ -84,6 +84,7 @@ export async function POST(request: Request) {
               name: name,
               email: email,
               phone: phone,
+              vat: rut || '',
               comment: `Empresa: ${company}\nNúmero de colaboradores: ${employees}`
             }]
           ], (err, value) => {
@@ -95,6 +96,18 @@ export async function POST(request: Request) {
       }
 
       // 4. Crear el ticket con todos los campos pre-rellenados
+      const problemsList = problems && problems.length > 0 
+        ? problems.map((p: string) => `<li>${p}</li>`).join('') 
+        : '';
+      
+      const problemsSection = problemsList 
+        ? `<strong>Problemas identificados:</strong><ul>${problemsList}</ul>` 
+        : '';
+      
+      const otherProblemSection = otherProblem 
+        ? `<strong>Otro problema:</strong> ${otherProblem}<br>` 
+        : '';
+
       const ticketId = await new Promise<number>((resolve, reject) => {
         modelsClient.methodCall('execute_kw', [
           odooDb,
@@ -110,15 +123,20 @@ export async function POST(request: Request) {
             partner_phone: phone,
             x_company: company,
             x_employees: employees,
+            x_rut: rut,
+            x_problems: problems && problems.length > 0 ? problems.join(', ') : '',
+            x_other_problem: otherProblem,
             description: `
                 <strong>Empresa:</strong> ${company}<br>
                 <strong>Número de colaboradores:</strong> ${employees}<br>
                 <strong>Teléfono:</strong> ${phone}<br>
-                <strong>Email:</strong> ${email}
+                <strong>Email:</strong> ${email}<br>
+                ${rut ? `<strong>RUT:</strong> ${rut}<br>` : ''}
+                ${problemsSection}
+                ${otherProblemSection}
                 `,
             team_id: 1,
-            priority: '1',
-            tag_ids: [[6, false, [1]]] // Asumiendo que el ID de la etiqueta 'Lead' es 1
+            priority: '1'
           }]
         ], (err, value) => {
           if (err) reject(err);
