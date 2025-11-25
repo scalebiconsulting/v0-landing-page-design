@@ -51,12 +51,24 @@ export default function ConsultationForm() {
   }
 
   const handleProblemasChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      problemas: checked ? [...prev.problemas, value] : prev.problemas.filter((p) => p !== value),
-    }))
-    setError("")
+    const { value, checked } = e.target;
+    setFormData((prev) => {
+      if (value === "Otro problema") {
+        return {
+          ...prev,
+          problemas: checked ? ["Otro problema"] : [],
+        };
+      } else {
+        const nuevos = checked
+          ? [...prev.problemas.filter((p) => p !== "Otro problema"), value]
+          : prev.problemas.filter((p) => p !== value);
+        return {
+          ...prev,
+          problemas: nuevos,
+        };
+      }
+    });
+    setError("");
   }
 
   const handleOtroProblemaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
