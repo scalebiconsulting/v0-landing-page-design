@@ -146,7 +146,8 @@ export async function POST(request: Request) {
             x_other_problem: otherProblem || '',
             description: description,
             team_id: 1,
-            priority: '1'
+            priority: '1',
+            tag_ids: [[6, false, [1]]] // Asumiendo que el ID de la etiqueta 'Lead' es 1
           }]
         ], (err, value) => {
           if (err) reject(err);
