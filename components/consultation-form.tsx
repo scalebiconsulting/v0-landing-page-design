@@ -51,12 +51,24 @@ export default function ConsultationForm() {
   }
 
   const handleProblemasChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      problemas: checked ? [...prev.problemas, value] : prev.problemas.filter((p) => p !== value),
-    }))
-    setError("")
+    const { value, checked } = e.target;
+    setFormData((prev) => {
+      if (value === "Otro problema") {
+        return {
+          ...prev,
+          problemas: checked ? ["Otro problema"] : [],
+        };
+      } else {
+        const nuevos = checked
+          ? [...prev.problemas.filter((p) => p !== "Otro problema"), value]
+          : prev.problemas.filter((p) => p !== value);
+        return {
+          ...prev,
+          problemas: nuevos,
+        };
+      }
+    });
+    setError("");
   }
 
   const handleOtroProblemaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -95,7 +107,16 @@ export default function ConsultationForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.nombre,
+          phone: formData.telefono,
+          email: formData.email,
+          company: formData.empresa,
+          employees: formData.colaboradores,
+          rut: formData.rut,
+          problems: formData.problemas,
+          otherProblem: formData.otroProblema,
+        }),
       })
 
       console.log("[v0] Response status:", response.status)
