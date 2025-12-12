@@ -139,9 +139,12 @@ export default function ConsultationForm() {
   }
 
   return (
-    <section id="consultation-form" className="py-20 px-4 sm:px-6 lg:px-8">
+    <section 
+      id="consultation-form" 
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-[#f3f5fb]"
+    >
       <div className="max-w-2xl mx-auto">
-        <div className="bg-[#0f1f2e]/50 border border-[#e8d4b0]/20 rounded-xl p-8 backdrop-blur-sm">
+        <div className="bg-[#0f1f2e] border border-[#e8d4b0]/20 rounded-xl p-8">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 text-center">
             Solicita tu Consultoría Gratuita
           </h2>

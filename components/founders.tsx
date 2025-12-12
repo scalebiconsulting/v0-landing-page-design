@@ -28,38 +28,68 @@ export default function Founders() {
     },
   ]
 
+  const CardContent = ({ founder }: { founder: typeof founders[0] }) => (
+    <>
+      <a
+        href={founder.linkedIn}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center w-full h-36 bg-gradient-to-br from-[#1a2e3e] to-[#0f1f2e] hover:from-[#2a3e4e] hover:to-[#1a2e3e] transition duration-300"
+      >
+        <svg
+          className="w-16 h-16 text-[#e8d4b0] hover:text-white transition duration-300"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
+        </svg>
+      </a>
+      <div className="p-8 space-y-4">
+        <h3 className="text-2xl font-bold text-white">{founder.name}</h3>
+        <p className="text-[#e8d4b0] font-semibold text-lg">{founder.role}</p>
+        <p className="text-gray-300 text-base leading-relaxed">{founder.description}</p>
+      </div>
+    </>
+  )
+
   return (
-    <section id="fundadores" className="py-20 px-4 sm:px-6 lg:px-8">
+    <section id="fundadores" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">Conoce nuestro equipo</h2>
-          <p className="text-xl text-gray-300">Profesionales apasionados por transformar negocios mediante datos</p>
+          <h2 className="text-4xl font-bold text-[#1a2e3e] mb-4">Conoce nuestro equipo</h2>
+          <p className="text-xl text-gray-600">Profesionales apasionados por transformar negocios mediante datos</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8" style={{ perspective: '1000px' }}>
           {founders.map((founder) => (
             <div
               key={founder.id}
-              className="bg-[#0f1f2e] rounded-xl overflow-hidden hover:shadow-lg transition duration-300 border border-[#e8d4b0]/20 hover:border-[#e8d4b0]/50"
+              className="relative h-[480px] cursor-pointer group"
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              <a
-                href={founder.linkedIn}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-full h-32 bg-gradient-to-br from-[#1a2e3e] to-[#0f1f2e] hover:from-[#2a3e4e] hover:to-[#1a2e3e] transition duration-300"
+              {/* Contenedor que rota */}
+              <div
+                className="w-full h-full transition-transform duration-1000 ease-in-out group-hover:[transform:rotateY(180deg)]"
+                style={{ transformStyle: 'preserve-3d' }}
               >
-                <svg
-                  className="w-14 h-14 text-[#e8d4b0] hover:text-white transition duration-300"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
+                {/* Cara frontal */}
+                <div 
+                  className="absolute inset-0 bg-[#0f1f2e] rounded-xl overflow-hidden border border-[#e8d4b0]/20"
+                  style={{ backfaceVisibility: 'hidden' }}
                 >
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
-                </svg>
-              </a>
-              <div className="p-6 space-y-3">
-                <h3 className="text-xl font-bold text-white">{founder.name}</h3>
-                <p className="text-[#e8d4b0] font-semibold">{founder.role}</p>
-                <p className="text-gray-300 text-sm leading-relaxed">{founder.description}</p>
+                  <CardContent founder={founder} />
+                </div>
+                
+                {/* Cara trasera (pre-rotada 180°) */}
+                <div 
+                  className="absolute inset-0 bg-[#0f1f2e] rounded-xl overflow-hidden border border-[#e8d4b0]/20"
+                  style={{ 
+                    backfaceVisibility: 'hidden',
+                    transform: 'rotateY(180deg)'
+                  }}
+                >
+                  <CardContent founder={founder} />
+                </div>
               </div>
             </div>
           ))}

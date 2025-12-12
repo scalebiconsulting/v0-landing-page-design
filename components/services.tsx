@@ -59,11 +59,18 @@ export default function Services() {
   }
 
   return (
-    <section id="servicios" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0f1f2e]">
-      <div className="max-w-6xl mx-auto">
+    <section 
+      id="servicios" 
+      className="pt-20 pb-40 px-4 sm:px-6 lg:px-8 relative bg-fixed bg-cover bg-center"
+      style={{ backgroundImage: 'url(/images/design-mode/image-4.webp)' }}
+    >
+      {/* Overlay para legibilidad */}
+      <div className="absolute inset-0" />
+      
+      <div className="relative z-10 max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">Nuestros Servicios</h2>
-          <p className="text-xl text-gray-300">
+          <h2 className="text-4xl font-bold text-black mb-4">Nuestros Servicios</h2>
+          <p className="text-xl text-black">
             Soluciones integrales de datos e inteligencia empresarial para optimizar tu negocio
           </p>
         </div>
@@ -72,13 +79,14 @@ export default function Services() {
           {services.map((service, index) => (
             <div
               key={index}
-              className="bg-[#1a2e3e] p-8 rounded-xl border border-[#e8d4b0]/10 hover:border-[#e8d4b0]/30 transition-all"
+              className="bg-[#1a2e3e] p-8 rounded-xl border border-[#e8d4b0]/10 hover:border-[#e8d4b0]/30 transition-all duration-300 hover:scale-105 hover:z-20 hover:shadow-2xl flex flex-col"
+              style={{ minHeight: '600px' }}
             >
-              <div className="text-4xl mb-4">{service.icon}</div>
-              <h3 className="text-2xl font-bold text-white mb-3">{service.title}</h3>
-              <p className="text-gray-300 mb-6">{service.description}</p>
+              <div className="text-5xl mb-6">{service.icon}</div>
+              <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
+              <p className="text-gray-300 mb-8 text-lg">{service.description}</p>
 
-              <ul className="space-y-2 mb-8">
+              <ul className="space-y-3 mb-8 flex-grow">
                 {service.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start text-gray-300">
                     <span className="text-[#4ade80] mr-3 mt-1 flex-shrink-0">✓</span>
@@ -96,7 +104,7 @@ export default function Services() {
 
               <button
                 onClick={handleCtaClick}
-                className="w-full py-3 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
+                className="w-full py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors mt-auto"
               >
                 {service.cta}
               </button>

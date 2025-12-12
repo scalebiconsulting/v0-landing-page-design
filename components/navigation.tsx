@@ -8,15 +8,15 @@ export default function Navigation() {
 
   return (
     <nav className="fixed top-0 w-full bg-[#1a2e3e]/95 backdrop-blur-sm z-50 border-b border-[#e8d4b0]/10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-        <div className="flex items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
+        <div className="flex items-center -ml-4">
           <img
             src="/images/design-mode/logo_scale_bi_1080x1080px.png"
             alt="ScaleBI Logo"
-            className="h-10 w-auto"
+            className="h-12 w-auto"
           />
         </div>
-        <div className="hidden md:flex gap-8 text-sm text-gray-300">
+        <div className="hidden md:flex gap-8 text-sm text-white">
           <button onClick={() => scrollToSection("servicios")} className="hover:text-[#e8d4b0] transition">
             Servicios
           </button>
