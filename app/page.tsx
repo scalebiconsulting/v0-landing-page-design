@@ -5,6 +5,7 @@ import Benefits from "@/components/benefits"
 import Founders from "@/components/founders"
 import CTA from "@/components/cta"
 import Navigation from "@/components/navigation"
+import Footer from "@/components/footer"
 
 export const metadata = {
   title: "ScaleBI - Inteligencia Empresarial y BI Analytics",
@@ -21,6 +22,7 @@ export default function Home() {
       <Benefits />
       <Founders />
       <CTA />
+      <Footer />
     </main>
   )
 }
