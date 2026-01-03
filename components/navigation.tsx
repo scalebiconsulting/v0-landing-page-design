@@ -1,33 +1,37 @@
 "use client"
 
 export default function Navigation() {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    element?.scrollIntoView({ behavior: "smooth" })
+  const openModal = () => {
+    const event = new CustomEvent('openModal')
+    window.dispatchEvent(event)
   }
 
   return (
-    <nav className="fixed top-0 w-full bg-[#1a2e3e]/95 backdrop-blur-sm z-50 border-b border-[#e8d4b0]/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
-        <div className="flex items-center -ml-4">
-          <img
-            src="/images/design-mode/logo_scale_bi_1080x1080px.png"
-            alt="ScaleBI Logo"
-            className="h-12 w-auto"
-          />
-        </div>
-        <div className="hidden md:flex gap-8 text-sm text-white">
-          <button onClick={() => scrollToSection("servicios")} className="hover:text-[#e8d4b0] transition">
-            Servicios
-          </button>
-          <button onClick={() => scrollToSection("beneficios")} className="hover:text-[#e8d4b0] transition">
-            Por qué elegirnos
-          </button>
-          <button onClick={() => scrollToSection("fundadores")} className="hover:text-[#e8d4b0] transition">
-            Equipo
-          </button>
+    <header className="bg-white border-b border-[#e2e8f0] py-3.5 sticky top-0 z-[100]">
+      <div className="max-w-[1100px] mx-auto px-6">
+        <div className="flex justify-between items-center">
+          <a href="#" className="flex items-center gap-2.5 no-underline">
+            <div className="w-[34px] h-[34px] bg-[#0a1628] rounded-lg flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-[18px] h-[18px] text-white">
+                <path d="M3 3v18h18"/>
+                <path d="M18 9l-5-6-4 8-3-2"/>
+              </svg>
+            </div>
+            <span className="text-[19px] font-bold text-[#0a1628] tracking-[-0.5px]">ScaleBI</span>
+          </a>
+          <div className="flex items-center gap-4">
+            <a href="mailto:hola@scalebi.cl" className="text-sm text-[#64748b] no-underline transition-colors hover:text-[#0a1628] hidden sm:block">
+              hola@scalebi.cl
+            </a>
+            <button 
+              onClick={openModal}
+              className="py-2.5 px-5 bg-[#0a1628] text-white border-none rounded-lg text-sm font-semibold cursor-pointer transition-all hover:bg-[#0f1f3a] hover:-translate-y-0.5"
+            >
+              Acceso Anticipado
+            </button>
+          </div>
         </div>
       </div>
-    </nav>
+    </header>
   )
 }
