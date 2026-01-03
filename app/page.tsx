@@ -1,28 +1,22 @@
-import Hero from "@/components/hero"
-import ConsultationForm from "@/components/consultation-form"
-import Services from "@/components/services"
-import Benefits from "@/components/benefits"
-import Founders from "@/components/founders"
-import CTA from "@/components/cta"
 import Navigation from "@/components/navigation"
+import ProductSection from "@/components/product-section"
+import DetailsSection from "@/components/details-section"
+import Modal from "@/components/modal"
 import Footer from "@/components/footer"
 
 export const metadata = {
-  title: "ScaleBI - Inteligencia Empresarial y BI Analytics",
-  description: "Soluciones de datos, BI Analytics, Advanced Analytics y consultoría para optimizar tu empresa",
+  title: "Estado de Resultados Automático | ScaleBI - Próximamente",
+  description: "Sube tu archivo del SII y obtén un P&L profesional automático. Sin fórmulas complicadas. Únete a la lista de espera.",
 }
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f3f5fb]">
+    <main className="min-h-screen bg-[#f9fafb]">
       <Navigation />
-      <Hero />
-      <ConsultationForm />
-      <Services />
-      <Benefits />
-      <Founders />
-      <CTA />
+      <ProductSection />
+      <DetailsSection />
       <Footer />
+      <Modal />
     </main>
   )
 }
