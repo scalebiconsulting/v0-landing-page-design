@@ -20,9 +20,6 @@ export default function Navigation() {
             <span className="text-[19px] font-bold text-[#0a1628] tracking-[-0.5px]">ScaleBI</span>
           </a>
           <div className="flex items-center gap-4">
-            <a href="mailto:hola@scalebi.cl" className="text-sm text-[#64748b] no-underline transition-colors hover:text-[#0a1628] hidden sm:block">
-              hola@scalebi.cl
-            </a>
             <button 
               onClick={openModal}
               className="py-2.5 px-5 bg-[#0a1628] text-white border-none rounded-lg text-sm font-semibold cursor-pointer transition-all hover:bg-[#0f1f3a] hover:-translate-y-0.5"
