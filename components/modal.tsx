@@ -56,15 +56,16 @@ export default function Modal() {
     const data = {
       nombre: formData.get('nombre'),
       email: formData.get('email'),
+      telefono: formData.get('telefono'),
       empresa: formData.get('empresa'),
       rubro: formData.get('rubro'),
       volumen: formData.get('volumen'),
-      dolor: formData.get('dolor')
+      dolor: formData.get('dolor'),
     }
 
     try {
       // Enviar a Google Apps Script
-      const response = await fetch('https://script.google.com/macros/s/AKfycbwnFYw5BCJk3YW9tnu3WZxSeowNvDpg7vfB3nbL6Ns2RtXAptqlGdDtfMhcTdA0TKCQ/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwrXJF3oVwkAfpLRmq1hIkmRw35hi4bZkQMSfvktKtO3JwGN6EKAS9auDQQni5Ntz7X/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
@@ -146,6 +147,18 @@ export default function Modal() {
                     type="email" 
                     name="email" 
                     placeholder="tu@email.com" 
+                    required 
+                    className="w-full py-3 px-4 border-2 border-[#e2e8f0] rounded-[10px] text-[15px] text-[#0a1628] transition-all focus:outline-none focus:border-[#10b981] focus:shadow-[0_0_0_4px_rgba(16,185,129,0.1)]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[13px] font-semibold text-[#0a1628] mb-2">
+                    Telefono <span className="text-red-500">*</span>
+                  </label>
+                  <input 
+                    type="tel" 
+                    name="telefono" 
+                    placeholder="+569xxxxxx" 
                     required 
                     className="w-full py-3 px-4 border-2 border-[#e2e8f0] rounded-[10px] text-[15px] text-[#0a1628] transition-all focus:outline-none focus:border-[#10b981] focus:shadow-[0_0_0_4px_rgba(16,185,129,0.1)]"
                   />
